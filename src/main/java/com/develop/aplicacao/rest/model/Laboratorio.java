@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,8 +37,16 @@ public class Laboratorio implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToMany(mappedBy="laboratorio", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="laboratorio", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Exame> exames = new ArrayList<Exame>();
+	
+	public List<Exame> getExames() {
+		return exames;
+	}
+	
+	public void setExames(List<Exame> exames) {
+		this.exames = exames;
+	}
 	
 	public Long getId() {
 		return id;

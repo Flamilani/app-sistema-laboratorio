@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +34,15 @@ public class ExameController {
 		return new ResponseEntity<List<Exame>>(list, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/busca/{nome}", produces = "application/json")
+	@CachePut("cacheexames")
+	public ResponseEntity<List<Exame>> busca(@PathVariable String nome) {
+		
+		List<Exame> list = (List<Exame>) exameRepository.findByNomeExame(nome);
+		
+		return new ResponseEntity<List<Exame>>(list, HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Exame> cadastrar(@RequestBody Exame exame) {
 		
@@ -56,6 +66,7 @@ public class ExameController {
         if(oldExame.isPresent()){
         	Exame exame = oldExame.get();
         	exame.setNome(newExame.getNome());
+        	exame.setTipo(newExame.getTipo());
         	exameRepository.save(exame);
             return new ResponseEntity<Exame>(exame, HttpStatus.OK);
         }
@@ -70,6 +81,7 @@ public class ExameController {
         if(oldExame.isPresent()){
         	Exame exame = oldExame.get();
         	exame.setNome(newExame.getNome());
+        	exame.setTipo(newExame.getTipo());
         	exameRepository.save(exame);
             return new ResponseEntity<Exame>(exame, HttpStatus.OK);
         }

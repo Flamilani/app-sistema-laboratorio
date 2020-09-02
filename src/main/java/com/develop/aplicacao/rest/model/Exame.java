@@ -13,6 +13,7 @@ import com.sun.istack.NotNull;
 
 import com.develop.aplicacao.rest.constants.Status;
 import com.develop.aplicacao.rest.constants.Tipo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "exame")
@@ -31,9 +32,10 @@ public class Exame {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@org.hibernate.annotations.ForeignKey(name = "lab_id")
+	@JsonIgnore
+	@org.hibernate.annotations.ForeignKey(name = "laboratorio_id")
 	@ManyToOne
-	private Laboratorio laboratorio;
+	private Laboratorio laboratorio;	
 	
 	public Long getId() {
 		return id;
@@ -62,6 +64,13 @@ public class Exame {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+	public Laboratorio getLaboratorio() {
+		return laboratorio;
+	}
+	public void setLaboratorio(Laboratorio laboratorio) {
+		this.laboratorio = laboratorio;
 	}
 	 
 	@Override
