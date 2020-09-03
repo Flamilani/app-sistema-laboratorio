@@ -27,9 +27,17 @@ public class ExameController {
 	private ExameRepository exameRepository;
 	
 	@GetMapping(value = "/", produces = "application/json")
-	public ResponseEntity<List<Exame>> laboratorio () {
+	public ResponseEntity<List<Exame>> exame() {
 		
 		List<Exame> list = (List<Exame>) exameRepository.findAll();
+		
+		return new ResponseEntity<List<Exame>>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/list", produces = "application/json")
+	public ResponseEntity<List<Exame>> list() {
+		
+		List<Exame> list = (List<Exame>) exameRepository.findByExameAtivo();
 		
 		return new ResponseEntity<List<Exame>>(list, HttpStatus.OK);
 	}
@@ -52,11 +60,11 @@ public class ExameController {
 	}
 	
 	@PostMapping(value = "/add", produces = "application/json")
-	public ResponseEntity<Exame> cadastrarLaboratorio(@RequestBody Exame exame) {
+	public ResponseEntity add(@RequestBody Exame exame) {
 		
 		Exame exameSalvo = exameRepository.save(exame);
 		
-		return new ResponseEntity<Exame>(exameSalvo, HttpStatus.OK);
+		return new ResponseEntity(exameSalvo, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/{id}", produces = "application/json")
@@ -67,6 +75,7 @@ public class ExameController {
         	Exame exame = oldExame.get();
         	exame.setNome(newExame.getNome());
         	exame.setTipo(newExame.getTipo());
+        	exame.setLaboratorio(newExame.getLaboratorio());
         	exameRepository.save(exame);
             return new ResponseEntity<Exame>(exame, HttpStatus.OK);
         }
@@ -75,13 +84,14 @@ public class ExameController {
 	}
 	
 	@PutMapping(value = "/update/{id}", produces = "application/json")
-	public ResponseEntity<Exame> atualizarExame(@PathVariable("id") Long id, @RequestBody Exame newExame) {
+	public ResponseEntity<Exame> update(@PathVariable("id") Long id, @RequestBody Exame newExame) {
 		
 		Optional<Exame> oldExame = exameRepository.findById(id);
         if(oldExame.isPresent()){
         	Exame exame = oldExame.get();
         	exame.setNome(newExame.getNome());
         	exame.setTipo(newExame.getTipo());
+        	exame.setLaboratorio(newExame.getLaboratorio());
         	exameRepository.save(exame);
             return new ResponseEntity<Exame>(exame, HttpStatus.OK);
         }
@@ -89,8 +99,9 @@ public class ExameController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
+
 	@DeleteMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Exame> delete(@PathVariable("id") Long id) {
+	public ResponseEntity<Exame> deleteExame(@PathVariable("id") Long id) {
 		
 		Optional<Exame> exame = exameRepository.findById(id);
         if(exame.isPresent()){
@@ -102,7 +113,7 @@ public class ExameController {
 	}
 	
 	@DeleteMapping(value = "/delete/{id}", produces = "application/json")
-	public ResponseEntity<Exame> deleteExame(@PathVariable("id") Long id) {
+	public ResponseEntity<Exame> delete(@PathVariable("id") Long id) {
 		
 		Optional<Exame> exame = exameRepository.findById(id);
         if(exame.isPresent()){

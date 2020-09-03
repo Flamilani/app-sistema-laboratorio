@@ -12,6 +12,9 @@ import com.develop.aplicacao.rest.model.Exame;
 @Repository
 public interface ExameRepository extends CrudRepository<Exame, Long>{
 	
+	@Query("select cs from Exame cs where cs.status = 'ATIVO'")
+	public List<Exame> findByExameAtivo();
+	
 	@Query("select cs from Exame cs where cs.nome= :#{#nome} and cs.status = 'ATIVO'")
 	public List<Exame> findByNomeExame(@Param("nome") String nome);
 	

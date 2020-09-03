@@ -13,7 +13,6 @@ import com.sun.istack.NotNull;
 
 import com.develop.aplicacao.rest.constants.Status;
 import com.develop.aplicacao.rest.constants.Tipo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "exame")
@@ -32,7 +31,6 @@ public class Exame {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@JsonIgnore
 	@org.hibernate.annotations.ForeignKey(name = "laboratorio_id")
 	@ManyToOne
 	private Laboratorio laboratorio;	
@@ -71,8 +69,8 @@ public class Exame {
 	}
 	public void setLaboratorio(Laboratorio laboratorio) {
 		this.laboratorio = laboratorio;
-	}
-	 
+	}	
+ 
 	@Override
 	public int hashCode() {
 		final int prime = 31;

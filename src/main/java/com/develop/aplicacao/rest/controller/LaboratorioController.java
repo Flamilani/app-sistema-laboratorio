@@ -33,14 +33,6 @@ public class LaboratorioController {
 		return new ResponseEntity<List<Laboratorio>>(list, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/list", produces = "application/json")
-	public ResponseEntity<List<Laboratorio>> listarLaboratorio () {
-		
-		List<Laboratorio> list = (List<Laboratorio>) laboratorioRepository.findAll();
-		
-		return new ResponseEntity<List<Laboratorio>>(list, HttpStatus.OK);
-	}
-	
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Laboratorio> cadastrar(@RequestBody Laboratorio laboratorio) {
 		
@@ -64,7 +56,6 @@ public class LaboratorioController {
         if(oldLaboratorio.isPresent()){
         	Laboratorio laboratorio = oldLaboratorio.get();
         	laboratorio.setNome(newLaboratorio.getNome());
-        	laboratorio.setEndereco(newLaboratorio.getEndereco());
             laboratorioRepository.save(laboratorio);
             return new ResponseEntity<Laboratorio>(laboratorio, HttpStatus.OK);
         }
@@ -79,7 +70,6 @@ public class LaboratorioController {
         if(oldLaboratorio.isPresent()){
         	Laboratorio laboratorio = oldLaboratorio.get();
         	laboratorio.setNome(newLaboratorio.getNome());
-        	laboratorio.setEndereco(newLaboratorio.getEndereco());
             laboratorioRepository.save(laboratorio);
             return new ResponseEntity<Laboratorio>(laboratorio, HttpStatus.OK);
         }
